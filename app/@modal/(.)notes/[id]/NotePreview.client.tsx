@@ -4,9 +4,10 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { fetchNoteById } from '../../../../lib/api'; // Перевірте точність шляху до вашого api.ts
-import { Modal } from '../../../../components/Modal/Modal';
-import css from './NoteDetails.module.css'; // Ваш файл стилів для деталей нотатки
+import { fetchNoteById } from '@/lib/api';
+import { Modal } from '@/components/Modal/Modal';
+
+import css from './NoteDetails.module.css';
 
 interface NotePreviewClientProps {
   id: string;
