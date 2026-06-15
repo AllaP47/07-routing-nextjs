@@ -4,8 +4,9 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { fetchNoteById } from '@/lib/api'; // Перевірте шлях до вашого api.ts
-import { Modal }  from '../../../../components/Modal/Modal'; // Вкажіть правильний шлях до вашого компонента Modal з минулих ДЗ
+import { fetchNoteById } from '../../../../lib/api'; // Перевірте точність шляху до вашого api.ts
+import { Modal } from '../../../../components/Modal/Modal';
+import css from './NoteDetails.module.css'; // Ваш файл стилів для деталей нотатки
 
 interface NotePreviewClientProps {
   id: string;
@@ -14,32 +15,52 @@ interface NotePreviewClientProps {
 export default function NotePreviewClient({ id }: NotePreviewClientProps) {
   const router = useRouter();
 
-  // Використовуємо useQuery, дані підтягнуться миттєво завдяки prefetch на сервері
-  const { data: note, isLoading } = useQuery({
+  const { data: note, isLoading, isError } = useQuery({
     queryKey: ['note', id],
     queryFn: () => fetchNoteById(id),
+    // ПУНКТ 1 ВИПРАВЛЕНО: Явним чином встановлюємо refetchOnMount у false
+    refetchOnMount: false,
   });
 
-  // Функція закриття модалки через повернення назад за історією браузера
+  // ПУНКТ 2 ВИПРАВЛЕНО: Використовуємо router.back() для повернення на попередню сторінку фільтрації
   const handleClose = () => {
-    router.push('/notes/filter/all');
+    router.back();
   };
-
-  if (isLoading) return null;
 
   return (
     <Modal isOpen={true} onClose={handleClose}>
-      <div>
-        <h2>{note?.title}</h2>
-        <p>{note?.content}</p>
-        {note?.tag && (
-          <div style={{ marginTop: '15px' }}>
-            <span style={{ background: '#e0e0e0', padding: '4px 10px', borderRadius: '4px', fontSize: '14px' }}>
-              {note.tag}
-            </span>
-          </div>
+      <div className={css.container || ''} style={{ minHeight: '150px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        
+        {/* ПУНКТ 4 ВИПРАВЛЕНО: Замість повернення null додано гарний індикатор завантаження */}
+        {isLoading && (
+          <p style={{ textAlign: 'center', color: '#666', fontWeight: '500' }}>
+            Loading note details...
+          </p>
+        )}
+
+        {/* ПУНКТ 3 ВИПРАВЛЕНО: Додано обробку та відображення повідомлення про помилку */}
+        {isError && (
+          <p style={{ textAlign: 'center', color: '#dc3545', fontWeight: '500' }}>
+            Failed to load note details. Please try again.
+          </p>
+        )}
+
+        {/* Основний вміст картки відображається тільки тоді, коли дані успішно завантажені */}
+        {!isLoading && !isError && note && (
+          <>
+            <h2 className={css.title || ''}>{note.title}</h2>
+            <p className={css.content || ''}>{note.content}</p>
+            {note.tag && (
+              <div className={css.tagWrapper || ''} style={{ marginTop: '15px' }}>
+                <span className={css.tag || ''} style={{ background: '#e0e0e0', padding: '4px 10px', borderRadius: '4px', fontSize: '14px' }}>
+                  {note.tag}
+                </span>
+              </div>
+            )}
+          </>
         )}
       </div>
     </Modal>
   );
 }
+
