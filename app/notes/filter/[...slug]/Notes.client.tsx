@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState,  } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useDebouncedCallback } from 'use-debounce'; 
+
 import { fetchNotes } from '../../../../lib/api';
 import { NoteList } from '../../../../components/NoteList/NoteList';
 import { SearchBox } from '../../../../components/SearchBox/SearchBox';
@@ -14,7 +15,6 @@ import type { FetchNotesResponse } from '../../../../lib/api';
 import cssStyles from './notes.module.css';
 const css = (cssStyles || {}) as Record<string, string>;
 
-
 interface NotesClientProps {
   tag?: string;
 }
@@ -24,9 +24,6 @@ export default function NotesClient({ tag }: NotesClientProps) {
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const perPage = 12;
-
- 
-
 
   const { data, isLoading } = useQuery({
     queryKey: ['notes', { page, search, tag }],

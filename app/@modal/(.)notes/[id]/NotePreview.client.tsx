@@ -1,4 +1,3 @@
-// app/@modal/(.)notes/[id]/NotePreview.client.tsx
 'use client';
 
 import React from 'react';
@@ -6,7 +5,6 @@ import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { fetchNoteById } from '../../../../lib/api';
 import { Modal } from '../../../../components/Modal/Modal';
-
 import css from './NoteDetails.module.css';
 
 interface NotePreviewClientProps {
@@ -19,10 +17,8 @@ export default function NotePreviewClient({ id }: NotePreviewClientProps) {
   const { data: note, isLoading, isError } = useQuery({
     queryKey: ['note', id],
     queryFn: () => fetchNoteById(id),
-   
     refetchOnMount: false,
   });
-
 
   const handleClose = () => {
     router.back();
@@ -31,22 +27,18 @@ export default function NotePreviewClient({ id }: NotePreviewClientProps) {
   return (
     <Modal isOpen={true} onClose={handleClose}>
       <div className={css.container || ''} style={{ minHeight: '150px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        
-      
         {isLoading && (
           <p style={{ textAlign: 'center', color: '#666', fontWeight: '500' }}>
             Loading note details...
           </p>
         )}
 
-    
         {isError && (
           <p style={{ textAlign: 'center', color: '#dc3545', fontWeight: '500' }}>
             Failed to load note details. Please try again.
           </p>
         )}
 
-      
         {!isLoading && !isError && note && (
           <>
             <h2 className={css.title || ''}>{note.title}</h2>
