@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { fetchNoteById } from '@/lib/api';
 import { Modal } from '@/components/Modal/Modal';
 
-import css from './NoteDetails.module.css';
+import css from '@/components/Notes/NoteDetails.module.css';
 
 interface NotePreviewClientProps {
   id: string;
