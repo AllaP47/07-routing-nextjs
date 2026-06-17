@@ -5,11 +5,11 @@ import { useQuery } from '@tanstack/react-query';
 import { useDebouncedCallback } from 'use-debounce'; 
 
 import { fetchNotes } from '@/lib/api';
-import { NoteList } from '@/components/NoteList/NoteList';
-import { SearchBox } from '@/components/SearchBox/SearchBox';
-import { Pagination } from '@/components/Pagination/Pagination';
-import { Modal } from '@/components/Modal/Modal';
-import { NoteForm } from '@/components/NoteForm/NoteForm'; 
+import { NoteList } from '@/app/components/NoteList/NoteList';
+import { SearchBox } from '@/app/components/SearchBox/SearchBox';
+import { Pagination } from '@/app/components/Pagination/Pagination';
+import { Modal } from '@/app/components/Modal/Modal';
+import { NoteForm } from '@/app/components/NoteForm/NoteForm'; 
 import type { FetchNotesResponse } from '@/lib/api';
 
 import cssStyles from '@/app/notes/notes.module.css'
