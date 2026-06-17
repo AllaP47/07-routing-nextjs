@@ -10,7 +10,7 @@ import css from '@/app/notes/[id]/details.module.css';
 
 interface NotePreviewClientProps {
   id: string;
-}
+};
 
 export default function NotePreviewClient({ id }: NotePreviewClientProps) {
   const router = useRouter();
